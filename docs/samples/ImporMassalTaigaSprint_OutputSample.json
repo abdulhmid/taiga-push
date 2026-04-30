@@ -1,0 +1,29 @@
+{
+  "created_tasks": 3,
+  "failed_rows": [
+    {
+      "row_number": 5,
+      "row_data": {"Talent": "Bob", "Note": "Setup CI", "Estimation": "2h"},
+      "error": "Assignee not found: Bob"
+    },
+    {
+      "row_number": 8,
+      "row_data": {"Talent": "Eve", "Note": "Docs", "Estimation": ""},
+      "error": "Missing Estimation"
+    }
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2026-04-30T10:00:00Z",
+      "user": "jane.doe@example.com",
+      "action": "import_start",
+      "details": {"project_id": 123, "sprint_id": null}
+    },
+    {
+      "timestamp": "2026-04-30T10:01:00Z",
+      "user": "jane.doe@example.com",
+      "action": "task_created",
+      "details": {"task_title": "Implement login", "assignee": "John Doe", "task_id": 456, "sprint_id": 789}
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+name: CI: Validate taiga-push.yml
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-taiga-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Lint taiga-push.yml (yamllint)
+        run: |
+          python -m pip install yamllint
+          yamllint taiga-push.yml || true
+
+      - name: Validate taiga-push.yml structure
+        run: python3 scripts/ci/validate_taiga_push.py
+
+      - name: Dry-run parse (quick)
+        run: python3 scripts/ci/dry_run_taiga_push.py
+
+      - name: Validate requirements/taiga-push.yml (M2M)
+        run: python3 scripts/ci/validate_taiga_push_requirements.py

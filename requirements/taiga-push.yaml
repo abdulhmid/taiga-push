@@ -1,0 +1,38 @@
+name: Impor Massal Tugas ke Taiga Sprint
+description: |
+  Impor massal tugas dari dokumen (Google Docs atau PDF yang telah diekspor) ke dalam sprint Taiga yang terdefinisi.
+goals:
+- Menghapus kebutuhan entri tugas satu per satu secara manual ke sprint Taiga
+- Memenuhi kepatuhan ISO melalui catatan audit, kontrol akses, dan pelacakan perubahan
+business_flow:
+- Pengguna mengotorisasi diri ke impor massal menggunakan token API Taiga.
+- Sistem memilih proyek Taiga; sistem menampilkan daftar sprint (iterasi) yang tersedia.
+- Pengguna memilih sprint yang ada atau mengizinkan pembuatan sprint baru dengan nama dan tanggal.
+- Pengguna mengunggah dokumen (PDF atau TXT) yang berisi data tugas; Sistem mengekstrak kolom Talent, Note, dan Estimation.
+- Sistem mem-parsing dokumen, memvalidasi kolom yang diperlukan (Talent, Note, Estimation), dan memetakan Talent ke pengguna Taiga.
+- Sistem membuat tugas dalam sprint yang dipilih; tidak mengaitkan ke User Stories sesuai persyaratan 5.4.
+- Sistem mengembalikan laporan ringkas dan log audit.
+inputs:
+  taiga_url: https://api.taiga.io
+  token: Bearer <TOKEN_TAIGA_API>
+  project_id: <TAIGA_PROJECT_ID>
+  sprint_name: optional
+  sprint_start: optional
+  sprint_end: optional
+  doc_input:
+    path: <path/to/document.pdf>  # atau path ke file eksport dari Google Docs (PDF/TXT)
+    format: pdf  # nilai yang diizinkan: pdf, txt
+taiga_hosting:
+  hosting: self-hosted
+  note: For self-hosted Taiga, set taiga_url to your host's API root (including /api/v1)
+outputs:
+  created_tasks: 0
+  failed_rows: []
+  audit_log: []
+iso_compliance:
+- scope: ISO 27001 (Manajemen Keamanan Informasi) dengan audit trail, akses terbatas, dan logging insiden
+- data_handling: Minimalkan penyimpanan data sensitif; enkripsi data saat istirahat
+- access_control: prinsip least privilege untuk penggunaan token API; tidak menempatkan token di kode
+constraints:
+- 5.4: Ceritakan bahwa User Stories disetel kosong; jika API mengharuskan Story, gunakan placeholder sementara
+status: pending%

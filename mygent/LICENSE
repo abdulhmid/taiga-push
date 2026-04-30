@@ -1,0 +1,15 @@
+
+### 3. SKILLS.md (Index semua skill)
+
+```markdown
+# Daftar Skill yang Tersedia
+
+## Python
+- **[python-api-fastapi](./skills/python-api-fastapi/SKILL.md)** — Development REST API dengan FastAPI (Production Ready)
+
+## Frontend / Dashboard
+- **[vuejs-dashboard](./skills/vuejs-dashboard/SKILL.md)** — Pembuatan Dashboard/Admin Panel dengan Vue 3 + Pinia + TypeScript
+
+---
+Total Skill: 2  
+Terakhir Diperbarui: 2026-04-27

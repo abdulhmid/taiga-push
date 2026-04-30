@@ -1,0 +1,7 @@
+Talent: John Doe
+Note: Implement login feature
+Estimation: 4h
+
+Talent: Jane Smith
+Note: Create user profile page
+Estimation: 6h
