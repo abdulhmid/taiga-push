@@ -61,6 +61,8 @@ Request:
   - `sprint_name` (optional)
   - `sprint_start` (optional)
   - `sprint_end` (optional)
+  - `estimated_start` (optional)
+  - `estimated_finish` (optional)
   - `document` — upload the TXT or PDF file directly
 
 Example:
@@ -72,6 +74,8 @@ curl -X POST http://localhost:8000/api/v1/taiga/import \
   -F "sprint_name=Sprint 1" \
   -F "sprint_start=2026-05-01" \
   -F "sprint_end=2026-05-15" \
+  -F "estimated_start=2026-05-01" \
+  -F "estimated_finish=2026-05-15" \
   -F "document=@tasks.txt"
 ```
 

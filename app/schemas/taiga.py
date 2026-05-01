@@ -11,6 +11,8 @@ class TaigaImportRequest(BaseModel):
     sprint_name: Optional[str]
     sprint_start: Optional[date]
     sprint_end: Optional[date]
+    estimated_start: Optional[date]
+    estimated_finish: Optional[date]
     document: bytes
     document_filename: str
 

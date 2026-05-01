@@ -75,6 +75,8 @@ class TaigaImportService:
                     description=note,
                     milestone_id=sprint["id"],
                     assigned_to=member_id,
+                    estimated_start=request.estimated_start.isoformat() if request.estimated_start else None,
+                    estimated_finish=request.estimated_finish.isoformat() if request.estimated_finish else None,
                 )
                 created_count += 1
                 audit.record(

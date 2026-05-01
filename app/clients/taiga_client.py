@@ -61,6 +61,8 @@ class TaigaClient:
         description: str,
         milestone_id: int,
         assigned_to: Optional[int] = None,
+        estimated_start: Optional[str] = None,
+        estimated_finish: Optional[str] = None,
     ) -> Dict[str, Any]:
         payload: Dict[str, Any] = {
             "project": project_id,
@@ -71,6 +73,10 @@ class TaigaClient:
         if assigned_to:
             payload["assigned_to"] = assigned_to
             payload["owner"] = assigned_to
+        if estimated_start:
+            payload["estimated_start"] = estimated_start
+        if estimated_finish:
+            payload["estimated_finish"] = estimated_finish
         return await self._request("POST", "tasks", json=payload)
 
     async def ping(self) -> bool:

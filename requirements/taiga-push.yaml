@@ -19,6 +19,8 @@ inputs:
   sprint_name: optional
   sprint_start: optional
   sprint_end: optional
+  estimated_start: optional
+  estimated_finish: optional
   doc_input:
     path: <path/to/document.pdf>  # atau path ke file eksport dari Google Docs (PDF/TXT)
     format: pdf  # nilai yang diizinkan: pdf, txt

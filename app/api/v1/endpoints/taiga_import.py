@@ -19,6 +19,8 @@ async def import_taiga_tasks(
     sprint_name: Optional[str] = Form(None),
     sprint_start: Optional[date] = Form(None),
     sprint_end: Optional[date] = Form(None),
+    estimated_start: Optional[date] = Form(None),
+    estimated_finish: Optional[date] = Form(None),
     document: UploadFile = File(...),
 ):
     request = TaigaImportRequest(
@@ -28,6 +30,8 @@ async def import_taiga_tasks(
         sprint_name=sprint_name,
         sprint_start=sprint_start,
         sprint_end=sprint_end,
+        estimated_start=estimated_start,
+        estimated_finish=estimated_finish,
         document=await document.read(),
         document_filename=document.filename,
     )
