@@ -103,16 +103,27 @@ See [docs/api.md](docs/api.md) for full endpoint documentation.
 
 ## Document Format
 
-The input document (PDF or TXT) must contain parseable columns:
+The input document (PDF or TXT) must contain parseable values for:
 - **Talent**: Taiga assignee username or full name
 - **Note**: Task subject/description
 - **Estimation**: Numeric effort value (e.g., `3.5` or `4`)
 
-Example TXT format:
+Supported formats:
+- CSV-style header row:
 ```
 Talent,Note,Estimation
 Alice,Implement login flow,3
 Bob,Design dashboard,5
+```
+- Key-value blocks separated by blank lines:
+```
+Talent: Alice
+Note: Implement login flow
+Estimation: 3
+
+Talent: Bob
+Note: Design dashboard
+Estimation: 5
 ```
 
 For PDF files, extract to plain text first for best results.

@@ -41,7 +41,9 @@ curl -X POST http://localhost:8000/api/v1/taiga/import \
 Notes:
 - `project_id` is required.
 - `sprint_name`, `sprint_start`, and `sprint_end` are optional, but if you want the API to create a sprint you must supply `sprint_name`.
-- The uploaded `document` file should be a TXT or PDF containing the required columns `Talent`, `Note`, and `Estimation`.
+- The uploaded `document` file should be a TXT or PDF containing either:
+  - a header row with columns `Talent`, `Note`, and `Estimation`, or
+  - blank-line-separated entries using `Talent:`, `Note:`, and `Estimation:` lines.
 
 Success response example:
 ```json

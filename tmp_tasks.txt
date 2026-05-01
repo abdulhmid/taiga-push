@@ -1,0 +1,7 @@
+Talent: Alice
+Note: Fix login bug
+Estimation: 3
+
+Talent: Bob
+Note: Review specs
+Estimation: 2
