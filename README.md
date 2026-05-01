@@ -53,19 +53,26 @@ The API will be available at `http://localhost:8000`.
 Import tasks from a document into Taiga.
 
 Request:
-```json
-{
-  "taiga_url": "https://api.taiga.io",
-  "token": "Bearer <TOKEN>",
-  "project_id": 12345,
-  "sprint_name": "Sprint 1",
-  "sprint_start": "2026-05-01",
-  "sprint_end": "2026-05-15",
-  "doc_input": {
-    "path": "/path/to/tasks.txt",
-    "format": "txt"
-  }
-}
+- Content type: `multipart/form-data`
+- Fields:
+  - `taiga_url`
+  - `token`
+  - `project_id`
+  - `sprint_name` (optional)
+  - `sprint_start` (optional)
+  - `sprint_end` (optional)
+  - `document` — upload the TXT or PDF file directly
+
+Example:
+```bash
+curl -X POST http://localhost:8000/api/v1/taiga/import \
+  -F "taiga_url=https://api.taiga.io" \
+  -F "token=Bearer <TOKEN>" \
+  -F "project_id=12345" \
+  -F "sprint_name=Sprint 1" \
+  -F "sprint_start=2026-05-01" \
+  -F "sprint_end=2026-05-15" \
+  -F "document=@tasks.txt"
 ```
 
 Response:

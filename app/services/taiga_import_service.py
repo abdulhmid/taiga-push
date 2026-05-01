@@ -8,7 +8,7 @@ from app.schemas.taiga import (
     TaigaTaskResult,
 )
 from app.utils.audit import AuditLog
-from app.utils.doc_parser import DocumentParseError, parse_document
+from app.utils.doc_parser import DocumentParseError, parse_document_from_bytes
 
 
 class TaigaImportService:
@@ -20,7 +20,10 @@ class TaigaImportService:
         audit.record("Starting Taiga import request")
 
         try:
-            rows = parse_document(request.doc_input.path, request.doc_input.format.value)
+            rows = parse_document_from_bytes(
+                request.document,
+                request.document_filename,
+            )
             audit.record(f"Parsed {len(rows)} row(s) from document")
         except DocumentParseError as exc:
             audit.record(f"Document parse failed: {exc}")

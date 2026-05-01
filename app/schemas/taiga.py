@@ -1,18 +1,7 @@
 from datetime import date
 from typing import List, Optional
-from enum import Enum
 
-from pydantic import BaseModel, Field, AnyHttpUrl, constr
-
-
-class DocumentFormat(str, Enum):
-    pdf = "pdf"
-    txt = "txt"
-
-
-class TaigaDocumentInput(BaseModel):
-    path: str = Field(..., description="Path to the input document file")
-    format: DocumentFormat
+from pydantic import BaseModel, AnyHttpUrl, constr
 
 
 class TaigaImportRequest(BaseModel):
@@ -22,7 +11,8 @@ class TaigaImportRequest(BaseModel):
     sprint_name: Optional[str]
     sprint_start: Optional[date]
     sprint_end: Optional[date]
-    doc_input: TaigaDocumentInput
+    document: bytes
+    document_filename: str
 
 
 class TaigaTaskResult(BaseModel):

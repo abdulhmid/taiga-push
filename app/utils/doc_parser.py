@@ -1,6 +1,7 @@
 import csv
+import io
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 from PyPDF2 import PdfReader
 
@@ -11,6 +12,12 @@ class DocumentParseError(ValueError):
 
 def _extract_pdf_text(path: Path) -> str:
     reader = PdfReader(path)
+    pages = [page.extract_text() or "" for page in reader.pages]
+    return "\n".join(pages)
+
+
+def _extract_pdf_text_from_bytes(content: bytes) -> str:
+    reader = PdfReader(io.BytesIO(content))
     pages = [page.extract_text() or "" for page in reader.pages]
     return "\n".join(pages)
 
@@ -26,18 +33,7 @@ def _normalize_header(header: str) -> str:
     return header.strip().lower().replace(" ", "_")
 
 
-def parse_document(path: str, fmt: str) -> List[Dict[str, str]]:
-    file_path = Path(path)
-    if not file_path.exists():
-        raise DocumentParseError(f"Input document not found: {file_path}")
-
-    if fmt == "pdf":
-        text = _extract_pdf_text(file_path)
-    elif fmt == "txt":
-        text = file_path.read_text(encoding="utf-8", errors="ignore")
-    else:
-        raise DocumentParseError(f"Unsupported document format: {fmt}")
-
+def _parse_text_document(text: str) -> List[Dict[str, str]]:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     if not lines:
         raise DocumentParseError("Document is empty or contains no parseable rows.")
@@ -69,3 +65,32 @@ def parse_document(path: str, fmt: str) -> List[Dict[str, str]]:
         raise DocumentParseError("No valid task rows were found in the document.")
 
     return rows
+
+
+def parse_document(path: str, fmt: str) -> List[Dict[str, str]]:
+    file_path = Path(path)
+    if not file_path.exists():
+        raise DocumentParseError(f"Input document not found: {file_path}")
+
+    if fmt == "pdf":
+        text = _extract_pdf_text(file_path)
+    elif fmt == "txt":
+        text = file_path.read_text(encoding="utf-8", errors="ignore")
+    else:
+        raise DocumentParseError(f"Unsupported document format: {fmt}")
+
+    return _parse_text_document(text)
+
+
+def parse_document_from_bytes(content: bytes, filename: str) -> List[Dict[str, str]]:
+    suffix = Path(filename).suffix.lower()
+    if suffix == ".pdf":
+        text = _extract_pdf_text_from_bytes(content)
+    elif suffix in {".txt", ".csv"}:
+        text = content.decode("utf-8", errors="ignore")
+    else:
+        raise DocumentParseError(
+            f"Unsupported document format: {suffix or 'unknown'}"
+        )
+
+    return _parse_text_document(text)

@@ -13,29 +13,35 @@ Base URL: `http://localhost:8000/api/v1`
 ## Endpoints
 
 ### 1. `POST /taiga/import`
-Bulk import tasks into Taiga using a document file path and sprint metadata.
+Bulk import tasks into Taiga using a single uploaded document file and sprint metadata.
 
-Request body:
-```json
-{
-  "taiga_url": "https://api.taiga.io",
-  "token": "Bearer <TOKEN_TAIGA_API>",
-  "project_id": 12345,
-  "sprint_name": "Sprint 1",
-  "sprint_start": "2026-05-01",
-  "sprint_end": "2026-05-15",
-  "doc_input": {
-    "path": "/path/to/tasks.txt",
-    "format": "txt"
-  }
-}
+Request:
+- Content type: `multipart/form-data`
+- Fields:
+  - `taiga_url` (string)
+  - `token` (string)
+  - `project_id` (integer)
+  - `sprint_name` (string, optional)
+  - `sprint_start` (date, optional)
+  - `sprint_end` (date, optional)
+  - `document` (file) — upload the TXT or PDF document directly
+
+Example curl request:
+```bash
+curl -X POST http://localhost:8000/api/v1/taiga/import \
+  -F "taiga_url=https://api.taiga.io" \
+  -F "token=Bearer <TOKEN_TAIGA_API>" \
+  -F "project_id=12345" \
+  -F "sprint_name=Sprint 1" \
+  -F "sprint_start=2026-05-01" \
+  -F "sprint_end=2026-05-15" \
+  -F "document=@tasks.txt"
 ```
 
 Notes:
 - `project_id` is required.
 - `sprint_name`, `sprint_start`, and `sprint_end` are optional, but if you want the API to create a sprint you must supply `sprint_name`.
-- `doc_input.format` must be either `pdf` or `txt`.
-- The document must contain columns for `Talent`, `Note`, and `Estimation`.
+- The uploaded `document` file should be a TXT or PDF containing the required columns `Talent`, `Note`, and `Estimation`.
 
 Success response example:
 ```json
