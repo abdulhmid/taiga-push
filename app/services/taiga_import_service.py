@@ -29,6 +29,15 @@ class TaigaImportService:
             audit.record(f"Document parse failed: {exc}")
             raise ValueError(str(exc)) from exc
 
+        if (request.estimated_start is None) != (request.estimated_finish is None):
+            raise ValueError(
+                "Both estimated_start and estimated_finish must be provided together."
+            )
+
+        audit.record(
+            f"Estimated window: start={request.estimated_start} finish={request.estimated_finish}"
+        )
+
         sprint = await self._get_or_create_sprint(
             request.project_id,
             request.sprint_name,
